@@ -36,7 +36,7 @@ class CryptoVisualizer:
         )
         return fig 
     
-    def save_plots(self, plots, output_dir='Visualizations')
+    def save_plots(self, plots, output_dir='Visualizations'):
         '''
         Save Plotly figures as HTML files 
         '''
