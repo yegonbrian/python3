@@ -39,7 +39,7 @@ class CryptoETLPipeline:
         
         return transformed_data
     
-    def load_data(self, transformed_data):
+    def load_data(self, transformed_data, output_dir='data'):
         """
         Load processed data into SQLite database
         """
@@ -57,5 +57,17 @@ class CryptoETLPipeline:
         
         # Close database connection
         self.db_manager.close()
+
+        '''Load data to CSV and Parquet'''
+        os.makedirs(output_dir, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        csv_path = os.path.join(output_dir, f'crypto_data_{timestamp}.csv')
+        transformed_data.to_csv(csv_path, index=False)
+
+        parquet_path = os.path.join(output_dir, f'crypto_data_{timestamp}.parquet')
+        transformed_data.to_parquet(parquet_path, index=False)
+
+        print(f"Data saved to {csv_path} and {parquet_path}")
         
         return transformed_data
